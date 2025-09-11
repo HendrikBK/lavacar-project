@@ -1,34 +1,45 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-nota',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './nota.component.html',
   styleUrl: './nota.component.css'
 })
 export class NotaComponent {
-  nota!: number;
-  conceito!: string;
+  nota: number | null = null;
+  conceito: string = '';
 
-  classificarNota(nota: number) : string {
-    switch (true) {
-      case (nota <= 59 ):
-        return 'F';
-      case (nota <= 69):
-        return 'D';
-      case (nota <= 79):
-        return 'C';
-      case (nota <= 89):
-        return 'B';
-      case (nota <= 100):
-        return 'A'
-      default:
-        return "Nota inválida";
+  classificarNota(): void {
+    if(this.nota != null) {
+      switch (true) {
+        case (this.nota <= 59 ):
+          this.conceito = 'F';
+          break;
+        case (this.nota <= 69):
+          this.conceito = 'D';
+          break;
+        case (this.nota <= 79):
+          this.conceito = 'C';
+          break;
+        case (this.nota <= 89):
+          this.conceito = 'B';
+          break;
+        case (this.nota <= 100):
+          this.conceito = 'A'
+          break;
+        default:
+          this.conceito = "Nota inválida";
+          break;
+      }
+    } else {
+      this.conceito =  "Nova inválida"
     }
   }
 
   constructor() {
-    this.nota = 87;
-    this.conceito = this.classificarNota(this.nota);
+    //this.conceito = this.classificarNota(this.nota);
   }
 }

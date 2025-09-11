@@ -1,5 +1,24 @@
-<div class="container">
+<!--<div class="container">
     <div class="row">
         <p>A nota {{ nota }} pertence ao conceito {{ conceito }}.</p>
+    </div>
+</div>-->
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card">
+            <div class="card-header">Featured</div>
+            <div class="card-body">
+                <form (ngSubmit)="classificarNota()">
+                    <div class="mb-3">
+                        <label for="nota" id="nota-label" class="form-label">Digite a nota:</label>        
+                        <input type="number" id="nota" [(ngModel)]="nota" name="nota" class="form-control" aria-describedby="nota-label">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Converter</button>
+                </form>
+                
+            </div>
+        </div>
+        <p *ngIf="conceito" class="alert alert-primary" role="alert">{{ conceito }}</p>
     </div>
 </div>
