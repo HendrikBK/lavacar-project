@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { DbService } from './db.service';
+import { db, DbService } from './db.service';
 import { Fornecedor } from '../models/fornecedor.model';
 
 
@@ -7,7 +7,6 @@ import { Fornecedor } from '../models/fornecedor.model';
   providedIn: 'root'
 })
 export class FornecedorService {
-  //private dbService = inject(DbService);
 
   constructor(private dbService: DbService) { }
 
@@ -17,6 +16,18 @@ export class FornecedorService {
   
   getAllFornecedores(): Promise<Fornecedor[]> {
     return this.dbService.fornecedores.toArray();
+  }
+
+  getFornecedorById(id: number) {
+    return this.dbService.fornecedores.get(id);
+  }
+
+  updateFornecedor(fornecedor: Fornecedor) {
+    return this.dbService.fornecedores.put(fornecedor);
+  }
+
+  deleteFornecedor(id: number) {
+    return this.dbService.fornecedores.delete(id);
   }
 }
 
