@@ -23,11 +23,14 @@ export class CadastroFornecedorComponent implements OnInit {
   constructor(private fornecedorService: FornecedorService, private route: ActivatedRoute, private router: Router){}
 
   async ngOnInit() {
-    this.fornecedorId = Number(this.route.snapshot.paramMap.get('Id'));
+
+    
+    this.fornecedorId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.fornecedorId) {
-      const fornecedor = await
-        this.fornecedorService.getFornecedorById(this.fornecedorId);
+      const fornecedor = await this.fornecedorService.getFornecedorById(this.fornecedorId);
       if (fornecedor) {
+        console.log(fornecedor);
+        
         this.formFornecedor = new FormGroup({
           nome: new FormControl(fornecedor.nome),
           cnpj: new FormControl(fornecedor.cnpj),
