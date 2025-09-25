@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Fornecedor } from '../../../models/fornecedor.model';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FornecedorService } from '../../../services/fornecedor.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro-fornecedor',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './cadastro-fornecedor.component.html',
   styleUrl: './cadastro-fornecedor.component.css'
 })
 export class CadastroFornecedorComponent implements OnInit {
   fornecedores: Fornecedor[] = [];
   formFornecedor = new FormGroup({
-    nome: new FormControl(''),
-    cnpj: new FormControl(''),
-    fone: new FormControl(''),
+    nome: new FormControl('', [Validators.required]),
+    cnpj: new FormControl('', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]),
+    fone: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
   });
   fornecedorId!: number;
 
