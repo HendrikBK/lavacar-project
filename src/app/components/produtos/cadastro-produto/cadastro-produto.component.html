@@ -23,6 +23,32 @@
                 <div class="form-text text-danger">Preço é obrigatório.</div>
                 }
             </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade:</label>
+                <input type="number" class="form-control" id="quantidade"
+                formControlName="quantidade"
+                [ngClass]="{
+                'is-invalid': formProduto.get('quantidade')?.invalid &&
+                formProduto.get('quantidade')?.touched,
+                'is-valid': formProduto.get('quantidade')?.valid &&
+                formProduto.get('quantidade')?.touched }" required />
+                @if(formProduto.get('quantidade')?.invalid &&
+                formProduto.get('quantidade')?.touched){
+                <div class="form-text text-danger">Quantidade é obrigatório.</div>
+                }
+                </div>
+            <div class="mb-3">
+                <label for="fornecedorId" class="form-label">Fornecedor:</label>
+                <select class="form-select" formControlName="fornecedorId" id="fornecedorId"
+                aria-label="Fornecedor" required>
+                @for(fornecedor of fornecedores; track fornecedor.id){
+                <option [value]="fornecedor.id">
+                {{ fornecedor.nome }} - {{ fornecedor.cnpj }} - {{ fornecedor.fone }}
+                </option>
+                }
+                </select>
+                <div class="form-text">Selecione o fornecedor para o produto.</div>
+            </div>
             <div class="mb-3"><!-- Quantidade --></div>
             <div class="mb-3"><!-- Fornecedor --></div>
             <button type="submit" class="btn btn-primary" [disabled]="formProduto.invalid">Salvar</button>

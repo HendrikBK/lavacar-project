@@ -3,16 +3,18 @@ import { Fornecedor } from '../../../models/fornecedor.model';
 import { FornecedorService } from '../../../services/fornecedor.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-listar-fornecedor',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './listar-fornecedor.component.html',
   styleUrl: './listar-fornecedor.component.css'
 })
 export class ListarFornecedorComponent implements OnInit {
 
   fornecedores: Fornecedor[] = [];
+  filtro = new FormControl('');
 
   constructor(private fornecedorService: FornecedorService, private router: Router) { };
 
@@ -44,6 +46,17 @@ export class ListarFornecedorComponent implements OnInit {
         });
         Swal.fire('Excluído!', 'O fornecedor foi excluído com sucesso.', 'success');
       }
+    });
+  }
+  viewProdutosFornecedor(id: number) {
+    this.router.navigate(['/fornecedor', id, 'produtos']);
+  }
+  getFornecedoresFiltrados(): Fornecedor[] {
+    const filtro = this.filtro.value?.toLowerCase() || '';
+    return this.fornecedores.filter(fornecedor => {
+      return fornecedor.nome.toLowerCase().includes(filtro) ||
+        fornecedor.cnpj.toLowerCase().includes(filtro) ||
+        fornecedor.fone.toLowerCase().includes(filtro);
     });
   }
 }
