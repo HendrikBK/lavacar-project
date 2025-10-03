@@ -5,6 +5,8 @@ import { ListarFornecedorComponent } from './components/fornecedores/listar-forn
 import { CadastroProdutoComponent } from './components/produtos/cadastro-produto/cadastro-produto.component';
 import { ListarProdutosComponent } from './components/produtos/listar-produtos/listar-produtos.component';
 import { ListarProdutosFornecedorComponent } from './components/fornecedores/listar-produtos-fornecedor/listar-produtos-fornecedor.component';
+import { CadastroServicoComponent } from './components/servicos/cadastro-servico/cadastro-servico.component';
+import { ListarServicosComponent } from './components/servicos/listar-servicos/listar-servicos.component';
 
 
 export const routes: Routes = [
@@ -15,5 +17,8 @@ export const routes: Routes = [
    { path : 'produtos/cadastrar-produtos', component: CadastroProdutoComponent },
    { path : 'produtos/listar-produtos', component: ListarProdutosComponent },
    { path : 'produtos/editar-produto/:id', component: CadastroProdutoComponent },
-   { path: 'fornecedor/:id/produtos', component: ListarProdutosFornecedorComponent },
+   { path : 'fornecedor/:id/produtos', component: ListarProdutosFornecedorComponent },
+   { path : 'servicos/cadastro-servico', component: CadastroServicoComponent },
+   { path : 'servicos/listar-servicos', component: ListarServicosComponent },
+   { path : 'servicos/editar-servico/:id', component: CadastroServicoComponent }
 ];

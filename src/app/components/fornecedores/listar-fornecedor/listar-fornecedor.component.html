@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for(fornecedor of getFornecedoresFiltrados(); track fornecedor.id){
+                @for (fornecedor of fornecedoresPaginados; track fornecedor.id){
                 <tr>
                     <th scope="row" class="text-center">{{ fornecedor.id}}</th>
                     <td>{{ fornecedor.nome }}</td>
@@ -35,6 +35,25 @@
                 }
             </tbody>
         </table>
+        @if(totalPages > 1){
+            <nav>
+            <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="paginaAtual === 1" (click)="anterior()">
+            <a class="page-link">Anterior</a>
+            </li>
+            @for (pagina of paginasArray; track pagina) {
+            <li class="page-item" [class.active]="pagina === paginaAtual"
+            (click)="irParaPagina(pagina)">
+            <a class="page-link">{{ pagina }}</a>
+            </li>
+            }
+            <li class="page-item" [class.disabled]="paginaAtual === totalPages"
+            (click)="proxima()">
+            <a class="page-link">Próxima</a>
+            </li>
+            </ul>
+            </nav>
+            }
     </div>
     }@else {
     <div class="row">

@@ -15,17 +15,36 @@ export class ListarFornecedorComponent implements OnInit {
 
   fornecedores: Fornecedor[] = [];
   filtro = new FormControl('');
+  fornecedoresFiltrados: Fornecedor[] = [];
+  fornecedoresPaginados: Fornecedor[] = [];
+  paginaAtual = 1;
+  itensPorPagina = 3;
 
   constructor(private fornecedorService: FornecedorService, private router: Router) { };
-
-  ngOnInit(): void {
-    this.getAllFornecedores();
+  async ngOnInit() {
+    this.filtro.valueChanges.subscribe(() => {
+      this.aplicarFiltrosEAtualizarPagina();
+    });
+    await this.carregarFornecedores();
   }
 
-  getAllFornecedores() {
-    this.fornecedorService.getAllFornecedores().then(fornecedores => {
-      this.fornecedores = fornecedores;
-    });
+  async carregarFornecedores(): Promise<void> {
+    this.fornecedores = await this.getAllFornecedores();
+    this.aplicarFiltrosEAtualizarPagina();
+  }
+  async getAllFornecedores(): Promise<Fornecedor[]> {
+    return await this.fornecedorService.getAllFornecedores();
+  }
+
+  aplicarFiltrosEAtualizarPagina(): void {
+    this.fornecedoresFiltrados = this.getFornecedoresFiltrados();
+    this.paginaAtual = 1;
+    this.atualizarPagina();
+  }
+  atualizarPagina(): void {
+    const inicio = (this.paginaAtual - 1) * this.itensPorPagina;
+    const fim = inicio + this.itensPorPagina;
+    this.fornecedoresPaginados = this.fornecedoresFiltrados.slice(inicio, fim);
   }
 
   editFornecedor(id: number) {
@@ -58,5 +77,30 @@ export class ListarFornecedorComponent implements OnInit {
         fornecedor.cnpj.toLowerCase().includes(filtro) ||
         fornecedor.fone.toLowerCase().includes(filtro);
     });
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.fornecedoresFiltrados.length / this.itensPorPagina);
+  }
+  irParaPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPages) {
+      this.paginaAtual = pagina;
+      this.atualizarPagina();
+    }
+  }
+  anterior(): void {
+    if (this.paginaAtual > 1) {
+      this.paginaAtual--;
+      this.atualizarPagina();
+    }
+  }
+  proxima(): void {
+    if (this.paginaAtual < this.totalPages) {
+      this.paginaAtual++;
+      this.atualizarPagina();
+    }
+  }
+  get paginasArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }
